@@ -1,0 +1,46 @@
+# Ignorar a pasta node_modules
+API/node_modules/
+
+# Ignorar arquivos de log
+API/*.log
+
+# Ignorar arquivos do sistema operacional (Ex.: .DS_Store no macOS)
+API/.DS_Store
+
+# Ignorar arquivos de ambiente (Ex.: .env)
+API/.env
+
+# dependencies
+Mobile/node_modules/
+
+# Expo
+Mobile/.expo/
+Mobile/dist/
+Mobile/web-build/
+Mobile/expo-env.d.ts
+
+# Native
+Mobile/*.orig.*
+Mobile/*.jks
+Mobile/*.p8
+Mobile/*.p12
+Mobile/*.key
+Mobile/*.mobileprovision
+
+# Metro
+Mobile/.metro-health-check*
+
+# debug
+Mobile/npm-debug.*
+Mobile/yarn-debug.*
+Mobile/yarn-error.*
+
+# macOS
+Mobile/.DS_Store
+Mobile/*.pem
+
+# local env files
+Mobile/.env*.local
+
+# typescript
+Mobile/*.tsbuildinfo
