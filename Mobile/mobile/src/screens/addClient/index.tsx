@@ -8,12 +8,14 @@ import InputAdd from "../../components/inputs/inputAdd";
 import Button from "../../components/buttons/button";
 import { useState } from "react";
 import { useClient } from "../../context/Client";
+import axios from "axios";
 
 type AddClientParamsList = NativeStackNavigationProp<RoutesParams, "AddClient">;
 
+const API_URL = "http://192.168.137.87:8081";
+
 export default function AddClientScreen() {
   const navigation = useNavigation<AddClientParamsList>();
-  const { addClient } = useClient();
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [dob, setDob] = useState("");
@@ -37,6 +39,7 @@ export default function AddClientScreen() {
     // Atualiza o estado com o valor formatado
     setDob(formattedInput);
   };
+  //Adicionar Cliente
 
   const handleSave = async () => {
     if (!nome || !email || !dob) {
@@ -45,11 +48,19 @@ export default function AddClientScreen() {
     }
 
     try {
-      const data = { nome, email, data_nascimento: dob };
-      const newClient = await addClient(data); // Adicionar cliente via contexto
-      navigation.navigate("Home", { newClient }); // Enviar novo cliente para Home
+      const response = await axios.post(`${API_URL}/clientes/`, {
+        name: nome,
+        email,
+        data_nascimento: dob,
+      });
+      Alert.alert("Sucesso", "Cliente adicionado com sucesso!");
+      setNome("");
+      setEmail("");
+      setDob(null);
+      navigation.navigate("Home", { newClient: response.data });
     } catch (error) {
-      console.error(error);
+      console.error("Erro ao adicionar cliente:", error);
+      Alert.alert("Erro", "Não foi possível adicionar o cliente.");
     }
   };
 
