@@ -44,6 +44,7 @@ export default function ProdutosScreen() {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <Card data={item} />}
       />
+
       <View style={styles.floatingButton}>
         <ButtonCircle
           className="addKeys"

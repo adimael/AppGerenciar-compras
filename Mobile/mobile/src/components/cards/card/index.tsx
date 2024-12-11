@@ -3,6 +3,7 @@ import { Text, View, Button, Modal, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import ButtonCircle from "../../buttons/buttonCircle";
 import InputAdd from "../../inputs/inputAdd";
+import { useClient } from "../../../context/Client";
 
 type Data = {
   id: string;
@@ -13,11 +14,41 @@ type Data = {
 
 type CardProps = {
   data: Data;
+  onUpdateClient: (updatedClient: Data) => void;
 };
 
-export default function Card({ data }: CardProps) {
+export default function Card({ data, onUpdateClient }: CardProps) {
+  const { editClient } = useClient();
   const [visibleModalDel, setVisibleModalDel] = useState(false);
   const [visibleModalEdit, setVisibleModalEdit] = useState(false);
+  const [dob, setDob] = useState("");
+  const [updatedData, setUpdatedData] = useState(data); // Estado para editar os dados
+
+  // Função para salvar as alterações
+  const handleSave = () => {
+    onUpdateClient(updatedData); // Envia os dados atualizados para o pai
+    setVisibleModalEdit(false); // Fecha a modal
+  };
+
+  const handleDobChange = (input: string) => {
+    // Remove caracteres que não são números
+    const numericInput = input.replace(/\D/g, "");
+
+    // Adiciona as barras para formatação
+    let formattedInput = numericInput;
+    if (numericInput.length > 2) {
+      formattedInput = `${numericInput.slice(0, 2)}/${numericInput.slice(2)}`;
+    }
+    if (numericInput.length > 4) {
+      formattedInput = `${numericInput.slice(0, 2)}/${numericInput.slice(
+        2,
+        4
+      )}/${numericInput.slice(4, 8)}`;
+    }
+
+    // Atualiza o estado com o valor formatado
+    setDob(formattedInput);
+  };
 
   // Função para abrir a modal
   const handleOpenModal = () => {
@@ -46,7 +77,7 @@ export default function Card({ data }: CardProps) {
         <View style={styles.button}>
           <Button
             title="Inativar"
-            className="delete"
+            className="delet"
             onPress={handleOpenModal}
             color="#F44336"
           />
@@ -66,7 +97,7 @@ export default function Card({ data }: CardProps) {
                   alignItems: "center",
                   flexDirection: "row",
                   margin: 30,
-                  marginRight: 176,
+                  marginRight: 150,
                 }}
               >
                 <ButtonCircle
@@ -114,7 +145,7 @@ export default function Card({ data }: CardProps) {
                   alignItems: "center",
                   flexDirection: "row",
                   margin: 30,
-                  marginRight: 176,
+                  marginRight: 180,
                 }}
               >
                 <ButtonCircle
@@ -130,7 +161,10 @@ export default function Card({ data }: CardProps) {
                 <InputAdd
                   iconName="user"
                   placeHolder="Nome completo"
-                  defaultValue=""
+                  value={updatedData.title}
+                  onChangeText={(text) =>
+                    setUpdatedData({ ...updatedData, title: text })
+                  }
                 />
               </View>
 
@@ -139,16 +173,10 @@ export default function Card({ data }: CardProps) {
                 <InputAdd
                   iconName="envelope"
                   placeHolder="E-mail"
-                  defaultValue=""
-                />
-              </View>
-
-              {/* Input para confirmar email */}
-              <View style={styles.inputContainer}>
-                <InputAdd
-                  iconName="envelope"
-                  placeHolder="E-mail de confirmação"
-                  defaultValue=""
+                  value={updatedData.username}
+                  onChangeText={(text) =>
+                    setUpdatedData({ ...updatedData, username: text })
+                  }
                 />
               </View>
 
@@ -156,14 +184,12 @@ export default function Card({ data }: CardProps) {
               <View style={styles.inputContainer}>
                 <InputAdd
                   iconName="calendar"
-                  placeHolder="Data de Nascimento"
-                  defaultValue=""
+                  placeholder="Data de Nascimento"
+                  value={dob}
+                  onChangeText={handleDobChange}
+                  keyboardType="numeric"
+                  maxLength={10} // Limita o número de caracteres no formato dd/mm/yyyy
                 />
-              </View>
-
-              {/* Input para a senha */}
-              <View style={styles.inputContainer}>
-                <InputAdd iconName="lock" placeHolder="Senha" defaultValue="" />
               </View>
 
               {/* Botões */}
@@ -176,7 +202,18 @@ export default function Card({ data }: CardProps) {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.saveButton}
-                  onPress={() => setVisibleModalEdit(false)}
+                  onPress={async () => {
+                    try {
+                      await editClient(data.id, {
+                        nome: updatedData.title,
+                        email: updatedData.username,
+                        data_nascimento: dob,
+                      });
+                      handleSave();
+                    } catch (error) {
+                      console.error("Erro ao editar cliente: ", error);
+                    }
+                  }}
                 >
                   <Text style={styles.saveButtonText}>Salvar</Text>
                 </TouchableOpacity>

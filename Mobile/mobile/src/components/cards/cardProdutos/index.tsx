@@ -5,10 +5,10 @@ import ButtonCircle from "../../buttons/buttonCircle";
 import InputAdd from "../../inputs/inputAdd";
 
 type Data = {
-  id: number;
+  id: StringConstructor;
   name: string;
   description: string;
-  price: number;
+  price: string;
   createdAt: string;
 };
 
@@ -30,7 +30,7 @@ export default function CardProdutos({ data }: CardProdutosProps) {
       <View style={styles.content}>
         <Text style={styles.title}>{data.name}</Text>
         <Text style={styles.description}>{data.description}</Text>
-        <Text style={styles.price}>Preço: R$ {data.price.toFixed(2)}</Text>
+        <Text style={styles.price}>Preço: R$ {data.price}</Text>
         <Text style={styles.dob}>
           {new Date(data.createdAt).toLocaleDateString()}
         </Text>
@@ -131,7 +131,7 @@ export default function CardProdutos({ data }: CardProdutosProps) {
                 <InputAdd
                   iconName="tag"
                   placeHolder="Nome do produto"
-                  defaultValue=""
+                  defaultValue={data.name}
                 />
               </View>
 
@@ -139,7 +139,7 @@ export default function CardProdutos({ data }: CardProdutosProps) {
                 <InputAdd
                   iconName="align-left"
                   placeHolder="Descrição do produto"
-                  defaultValue=""
+                  defaultValue={data.description}
                 />
               </View>
 
@@ -148,7 +148,7 @@ export default function CardProdutos({ data }: CardProdutosProps) {
                   iconName="dollar"
                   placeHolder="Preço do produto"
                   keyboardType="numeric"
-                  defaultValue=""
+                  defaultValue={data.price}
                 />
               </View>
 
