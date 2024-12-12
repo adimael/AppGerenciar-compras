@@ -173,15 +173,12 @@ CREATE TABLE IF NOT EXISTS ClientesCompramProdutos (
 - POST /clientes: Cadastrar um cliente.
 
 ````
-
 {
   "nome": "Maria Oliveira",
   "email": "maria.oliveira@example.com",
   "data_nascimento": "1995-03-15",
   "status": "ativo"
 }
-
-
 ````
 
 
@@ -193,6 +190,18 @@ CREATE TABLE IF NOT EXISTS ClientesCompramProdutos (
 ### Produtos
 
 - POST /produtos: Cadastrar um produto.
+
+`````
+{
+  "nome": "Cadeira Gamer",
+  "marca": "ThunderX3",
+  "preco": 1200.50,
+  "quantidade": 5,
+  "status": "ativo"
+}
+``````
+
+
 - GET /produtos: Listar todos os produtos.
 - GET /produtos/:id: Buscar um produto pelo ID.
 - PUT /produtos/:id: Atualizar um produto.
@@ -201,4 +210,20 @@ CREATE TABLE IF NOT EXISTS ClientesCompramProdutos (
 ### Compras
 
 - POST /compras/registrarCompra: Registrar a compra de um produto por um cliente.
+
+````
+{
+  "id_cliente": 1,
+  "id_produto": 1,
+  "quantidade": 3
+}
+````
+
 - POST /compras/cancelarCompra: Cancela a compra do cliente.
+
+````
+{
+  "id_cliente": 1,
+  "id_produto": 1
+}
+````
