@@ -3,7 +3,7 @@ const db = require("../config/database");
 // Obter todos os produtos
 exports.getAllProdutos = async (req, res) => {
   try {
-    const [rows] = await db.query("SELECT * FROM Produtos");
+    const [rows] = await db.query("SELECT * FROM produtos");
     res.json(rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -17,7 +17,7 @@ exports.buscarProduto = async (req, res) => {
     try {
       // Query para buscar o produto pelo id
       const [rows] = await db.execute(
-        "SELECT * FROM Produtos WHERE id = ?",
+        "SELECT * FROM produtos WHERE id = ?",
         [id]
       );
   
@@ -39,7 +39,7 @@ exports.createProduto = async (req, res) => {
   const { nome, marca, preco, quantidade, status } = req.body;
   try {
     await db.query(
-      "INSERT INTO Produtos (nome, marca, preco, quantidade, status) VALUES (?, ?, ?, ?, ?)",
+      "INSERT INTO produtos (nome, marca, preco, quantidade, status) VALUES (?, ?, ?, ?, ?)",
       [nome, marca, preco, quantidade, status]
     );
     res.status(201).json({ message: "Produto criado com sucesso!" });
@@ -54,7 +54,7 @@ exports.atualizarProduto = async (req, res) => {
   
     try {
       const [result] = await db.execute(
-        "UPDATE Produtos SET nome = ?, marca = ?, preco = ?, quantidade = ?, status = ? WHERE id = ?",
+        "UPDATE produtos SET nome = ?, marca = ?, preco = ?, quantidade = ?, status = ? WHERE id = ?",
         [nome, marca, preco, quantidade, status, id]
       );
   
@@ -74,7 +74,7 @@ exports.deletarProduto = async (req, res) => {
     try {
       // Query para deletar o produto pelo id
       const [result] = await db.execute(
-        "DELETE FROM Produtos WHERE id = ?",
+        "DELETE FROM produtos WHERE id = ?",
         [id]
       );
   

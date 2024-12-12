@@ -24,10 +24,11 @@ DROP TABLE IF EXISTS `clientes`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `clientes` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
+  `nome` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `data_nascimento` date NOT NULL,
   `status` enum('ativo','inativo') DEFAULT 'ativo',
+  `criado_em` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -39,7 +40,7 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (1,'Maria Oliveira','maria.oliveira@example.com','1995-03-15','ativo');
+INSERT INTO `clientes` VALUES (1,'Maria Oliveira Silva','maria.silva@example.com','1995-03-15','ativo','2024-12-12 21:12:01');
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,7 +63,7 @@ CREATE TABLE `clientescompramprodutos` (
   KEY `id_produto` (`id_produto`),
   CONSTRAINT `clientescompramprodutos_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id`),
   CONSTRAINT `clientescompramprodutos_ibfk_2` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,7 +72,7 @@ CREATE TABLE `clientescompramprodutos` (
 
 LOCK TABLES `clientescompramprodutos` WRITE;
 /*!40000 ALTER TABLE `clientescompramprodutos` DISABLE KEYS */;
-INSERT INTO `clientescompramprodutos` VALUES (5,1,1,3,'2024-12-01 17:34:18','finalizado');
+INSERT INTO `clientescompramprodutos` VALUES (1,1,1,3,'2024-12-12 21:12:10','cancelado');
 /*!40000 ALTER TABLE `clientescompramprodutos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -84,11 +85,12 @@ DROP TABLE IF EXISTS `produtos`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `produtos` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) NOT NULL,
+  `nome` varchar(255) NOT NULL,
   `marca` varchar(100) DEFAULT NULL,
   `preco` decimal(10,2) NOT NULL,
   `quantidade` int DEFAULT '0',
   `status` enum('ativo','inativo') DEFAULT 'ativo',
+  `criado_em` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -99,7 +101,7 @@ CREATE TABLE `produtos` (
 
 LOCK TABLES `produtos` WRITE;
 /*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
-INSERT INTO `produtos` VALUES (1,'Cadeira Gamer','ThunderX3',1200.50,5,'ativo');
+INSERT INTO `produtos` VALUES (1,'Cadeira Gamer Luxo','ThunderX3',1500.75,3,'ativo','2024-12-12 21:12:05');
 /*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -112,4 +114,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-01 14:39:00
+-- Dump completed on 2024-12-12 18:40:01

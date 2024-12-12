@@ -3,7 +3,7 @@ const db = require("../config/database");
 // Obter todos os clientes
 exports.getAllClientes = async (req, res) => {
   try {
-    const [rows] = await db.query("SELECT * FROM Clientes");
+    const [rows] = await db.query("SELECT * FROM clientes");
     res.json(rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -16,7 +16,7 @@ exports.buscarCliente = async (req, res) => {
     try {
       // Query para buscar o cliente pelo id
       const [rows] = await db.execute(
-        "SELECT * FROM Clientes WHERE id = ?",
+        "SELECT * FROM clientes WHERE id = ?",
         [id]
       );
   
@@ -38,7 +38,7 @@ exports.createCliente = async (req, res) => {
   const { nome, email, data_nascimento, status } = req.body;
   try {
     await db.query(
-      "INSERT INTO Clientes (nome, email, data_nascimento, status) VALUES (?, ?, ?, ?)",
+      "INSERT INTO clientes (nome, email, data_nascimento, status) VALUES (?, ?, ?, ?)",
       [nome, email, data_nascimento, status]
     );
     res.status(201).json({ message: "Cliente criado com sucesso!" });
@@ -53,7 +53,7 @@ exports.atualizarCliente = async (req, res) => {
   
     try {
       const [result] = await db.execute(
-        "UPDATE Clientes SET nome = ?, email = ?, data_nascimento = ?, status = ? WHERE id = ?",
+        "UPDATE clientes SET nome = ?, email = ?, data_nascimento = ?, status = ? WHERE id = ?",
         [nome, email, data_nascimento, status, id]
       );
   
@@ -73,7 +73,7 @@ exports.atualizarCliente = async (req, res) => {
     try {
       // Query para deletar o cliente pelo id
       const [result] = await db.execute(
-        "DELETE FROM Clientes WHERE id = ?",
+        "DELETE FROM clientes WHERE id = ?",
         [id]
       );
   

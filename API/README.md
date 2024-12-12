@@ -75,6 +75,7 @@ A API estará disponível em http://localhost:3000
   "author": "Adimael",
   "license": "ISC",
   "description": ""
+}
 ````
 
 ##
@@ -120,25 +121,27 @@ package.json
 ### Tabela: `clientes`
 
 ````
-CREATE TABLE clientes (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  nome VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL,
-  telefone VARCHAR(15) NOT NULL,
-  status ENUM('ativo', 'inativo') NOT NULL
+CREATE TABLE IF NOT EXISTS clientes (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(255) NOT NULL,
+        email VARCHAR(255) UNIQUE NOT NULL,
+        data_nascimento DATE NOT NULL,
+        status ENUM('ativo', 'inativo') DEFAULT 'ativo',
+        criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ````
 
 ### Tabela: `produtos`
 
 ````
-CREATE TABLE produtos (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  nome VARCHAR(255) NOT NULL,
-  marca VARCHAR(255) NOT NULL,
-  preco DECIMAL(10, 2) NOT NULL,
-  quantidade INT NOT NULL,
-  status ENUM('ativo', 'inativo') NOT NULL
+CREATE TABLE IF NOT EXISTS produtos (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        nome VARCHAR(255) NOT NULL,
+        marca VARCHAR(100),
+        preco DECIMAL(10, 2) NOT NULL,
+        quantidade INT DEFAULT 0,
+        status ENUM('ativo', 'inativo') DEFAULT 'ativo',
+        criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ````
 
@@ -147,16 +150,16 @@ CREATE TABLE produtos (
 ### Esta tabela cria o relacionamento entre clientes e produtos, representando quais produtos foram comprados por quais clientes.
 
 ````
-CREATE TABLE ClientesCompramProdutos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    id_cliente INT,
-    id_produto INT,
-    quantidade INT NOT NULL,
-    data_compra TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status ENUM('finalizado', 'cancelado') DEFAULT 'finalizado',
-    UNIQUE (id_cliente, id_produto), -- Garantir que a combinação de cliente e produto seja única
-    FOREIGN KEY (id_cliente) REFERENCES Clientes(id),
-    FOREIGN KEY (id_produto) REFERENCES Produtos(id)
+CREATE TABLE IF NOT EXISTS ClientesCompramProdutos (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        id_cliente INT,
+        id_produto INT,
+        quantidade INT NOT NULL,
+        data_compra TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        status ENUM('finalizado', 'cancelado') DEFAULT 'finalizado',
+        UNIQUE (id_cliente, id_produto), -- Garantir que a combinação de cliente e produto seja única
+        FOREIGN KEY (id_cliente) REFERENCES Clientes(id),
+        FOREIGN KEY (id_produto) REFERENCES Produtos(id)
 );
 ````
 
@@ -168,6 +171,20 @@ CREATE TABLE ClientesCompramProdutos (
 ### Clientes
 
 - POST /clientes: Cadastrar um cliente.
+
+````
+
+{
+  "nome": "Maria Oliveira",
+  "email": "maria.oliveira@example.com",
+  "data_nascimento": "1995-03-15",
+  "status": "ativo"
+}
+
+
+````
+
+
 - GET /clientes: Listar todos os clientes.
 - GET /clientes/:id: Buscar um cliente pelo ID.
 - PUT /clientes/:id: Atualizar um cliente.
@@ -183,4 +200,5 @@ CREATE TABLE ClientesCompramProdutos (
 
 ### Compras
 
-- POST /compras: Registrar a compra de um produto por um cliente.
+- POST /compras/registrarCompra: Registrar a compra de um produto por um cliente.
+- POST /compras/cancelarCompra: Cancela a compra do cliente.
