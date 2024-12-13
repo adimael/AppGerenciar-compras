@@ -15,7 +15,14 @@ Front-End Web do projeto de mini-loja com gerenciamento de clientes, produtos e 
 * [![JavaScript](https://img.shields.io/badge/JavaScript-yellow?style=for-the-badge&logo=javascript)](https://www.javascript.com/)
 * [![CSS3](https://img.shields.io/badge/CSS3-blue?style=for-the-badge&logo=css3)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 
-# Devs
+## Funcionalidades Implementadas até o Momento
+
+- Visualização de Produtos e Clientes: Exibição de uma lista de produtos e clientes cadastrados.
+- Adição de Produtos e Clientes: Formulários modais para adicionar novos produtos e clientes.
+- Edição de Clientes: Funcionalidade para editar os dados dos clientes.
+- Inativação de Clientes: Muda a cor do card do cliente.
+
+## Devs
 
 - Front-End Web: Sampas
 - Front-End Mobile: Henrique
