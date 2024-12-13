@@ -19,14 +19,11 @@ export default function WelcomeScreen() {
       />
       <View style={styles.viewText}>
         <Text style={styles.textTitle}>Compras.com</Text>
-        <Text style={styles.textP}>
-          Navegue no melhor aplicativo {"\n"}
-          de compras online
-        </Text>
+        <Text style={styles.textP}>Gerencie sua loja online</Text>
       </View>
 
       <Button
-        title="Comprar"
+        title="Entrar"
         className="loading"
         onPress={() => navigation.navigate("Home")}
       />

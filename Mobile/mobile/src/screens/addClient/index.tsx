@@ -12,7 +12,7 @@ import axios from "axios";
 
 type AddClientParamsList = NativeStackNavigationProp<RoutesParams, "AddClient">;
 
-const API_URL = "http://192.168.137.87:8081";
+const API_URL = "http://localhost:3001";
 
 export default function AddClientScreen() {
   const navigation = useNavigation<AddClientParamsList>();
@@ -56,7 +56,7 @@ export default function AddClientScreen() {
       Alert.alert("Sucesso", "Cliente adicionado com sucesso!");
       setNome("");
       setEmail("");
-      setDob(null);
+      setDob("");
       navigation.navigate("Home", { newClient: response.data });
     } catch (error) {
       console.error("Erro ao adicionar cliente:", error);

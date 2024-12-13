@@ -31,9 +31,6 @@ export default function CardCompras({ data }: CardComprasProps) {
         <Text style={styles.title}>{data.itemName}</Text>
         <Text style={styles.subtitle}>Quantidade: {data.quantity}</Text>
         <Text style={styles.subtitleQuant}>Total: R$ {data.total}</Text>
-        <Text style={styles.dob}>
-          {new Date(data.createdAt).toLocaleDateString()}
-        </Text>
       </View>
       <View style={styles.divider} />
       <View style={styles.buttonContainer}>

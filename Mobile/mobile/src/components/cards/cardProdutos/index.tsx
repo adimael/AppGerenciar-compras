@@ -31,9 +31,6 @@ export default function CardProdutos({ data }: CardProdutosProps) {
         <Text style={styles.title}>{data.name}</Text>
         <Text style={styles.description}>{data.description}</Text>
         <Text style={styles.price}>Preço: R$ {data.price}</Text>
-        <Text style={styles.dob}>
-          {new Date(data.createdAt).toLocaleDateString()}
-        </Text>
       </View>
       <View style={styles.divider} />
       <View style={styles.buttonContainer}>

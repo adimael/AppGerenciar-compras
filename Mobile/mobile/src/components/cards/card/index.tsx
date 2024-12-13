@@ -10,6 +10,7 @@ type Data = {
   title: string;
   username: string;
   createdAt: string;
+  data_nascimento: string;
 };
 
 type CardProps = {
@@ -19,35 +20,51 @@ type CardProps = {
 
 export default function Card({ data, onUpdateClient }: CardProps) {
   const { editClient } = useClient();
+  const { inativarCliente } = useClient();
   const [visibleModalDel, setVisibleModalDel] = useState(false);
   const [visibleModalEdit, setVisibleModalEdit] = useState(false);
   const [dob, setDob] = useState("");
   const [updatedData, setUpdatedData] = useState(data); // Estado para editar os dados
 
+  const handleInactivate = async () => {
+    try {
+      await inativarCliente(data.id);
+      setVisibleModalDel(false);
+      alert("Usuário inativado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao inativar cliente:", error);
+    }
+  };
+
   // Função para salvar as alterações
-  const handleSave = () => {
-    onUpdateClient(updatedData); // Envia os dados atualizados para o pai
-    setVisibleModalEdit(false); // Fecha a modal
+  const handleSave = async () => {
+    //Validação da data de nascimento
+    if (!dob.match(/^\d{2}\/\d{2}\/\d{4}$/)) {
+      alert("Data de nascimento inválida!");
+      return;
+    }
+    try {
+      await editClient(data.id, {
+        nome: updatedData.title,
+        email: updatedData.username,
+        data_nascimento: dob,
+      });
+      onUpdateClient({ ...updatedData, createdAt: dob });
+      setVisibleModalEdit(false);
+    } catch (error) {
+      console.error("Erro ao salvar cliente: ", error);
+      alert("Não foi possível salvar as alterações. Tente novamente.");
+    }
   };
 
   const handleDobChange = (input: string) => {
-    // Remove caracteres que não são números
-    const numericInput = input.replace(/\D/g, "");
-
-    // Adiciona as barras para formatação
-    let formattedInput = numericInput;
-    if (numericInput.length > 2) {
-      formattedInput = `${numericInput.slice(0, 2)}/${numericInput.slice(2)}`;
-    }
-    if (numericInput.length > 4) {
-      formattedInput = `${numericInput.slice(0, 2)}/${numericInput.slice(
-        2,
-        4
-      )}/${numericInput.slice(4, 8)}`;
-    }
-
-    // Atualiza o estado com o valor formatado
-    setDob(formattedInput);
+    const numericInput = input.replace(/\D/g, "").slice(0, 8);
+    let formatted = numericInput;
+    if (numericInput.length > 2)
+      formatted = `${numericInput.slice(0, 2)}/${numericInput.slice(2)}`;
+    if (numericInput.length > 4)
+      formatted = `${formatted.slice(0, 5)}/${numericInput.slice(4)}`;
+    setDob(formatted);
   };
 
   // Função para abrir a modal
@@ -60,9 +77,6 @@ export default function Card({ data, onUpdateClient }: CardProps) {
       <View style={styles.content}>
         <Text style={styles.title}>{data.title}</Text>
         <Text style={styles.email}>{data.username}</Text>
-        <Text style={styles.dob}>
-          {new Date(data.createdAt).toLocaleDateString()}
-        </Text>
       </View>
       <View style={styles.divider} />
       <View style={styles.buttonContainer}>
@@ -122,7 +136,7 @@ export default function Card({ data, onUpdateClient }: CardProps) {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.deleteButton}
-                  onPress={() => setVisibleModalDel(false)}
+                  onPress={handleInactivate}
                 >
                   <Text style={styles.deleteButtonText}>Inativar</Text>
                 </TouchableOpacity>
@@ -202,18 +216,7 @@ export default function Card({ data, onUpdateClient }: CardProps) {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.saveButton}
-                  onPress={async () => {
-                    try {
-                      await editClient(data.id, {
-                        nome: updatedData.title,
-                        email: updatedData.username,
-                        data_nascimento: dob,
-                      });
-                      handleSave();
-                    } catch (error) {
-                      console.error("Erro ao editar cliente: ", error);
-                    }
-                  }}
+                  onPress={handleSave}
                 >
                   <Text style={styles.saveButtonText}>Salvar</Text>
                 </TouchableOpacity>

@@ -7,6 +7,12 @@ type ClientContextType = {
     id: string,
     data: { nome: string; email: string; data_nascimento: string }
   ) => Promise<void>;
+  inativarCliente: (id: string) => Promise<void>;
+  addClient: (data: {
+    nome: string;
+    email: string;
+    data_nascimento: string;
+  }) => Promise<any>;
 };
 
 const ClientContext = createContext<ClientContextType | undefined>(undefined);
@@ -22,13 +28,53 @@ export const ClientProvider: React.FC<{ children: React.ReactNode }> = ({
   ) => {
     setLoading(true);
     try {
-      await axios.put(`http://192.168.137.87:8081/clientes/${id}`, data);
+      console.log(id, data);
+      await axios.put(`http://10.0.0.40:3001/clientes/${id}`, data);
       alert("Cliente atualizado com sucesso!");
     } catch (error) {
+      console.log("erro do console: ", error);
       console.error("Erro ao atualizar cliente:", error);
       alert("Erro ao atualizar cliente.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  //Inativar Client
+  const inativarCliente = async (id: string) => {
+    setLoading(true);
+    try {
+      const response = await axios.patch(
+        `http://10.0.0.40:3001/clientes/${id}/inativar`
+      );
+
+      if (response.status !== 200 && response.status !== 204) {
+        throw new Error("Erro ao inativar cliente");
+      }
+
+      alert("Cliente inativado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao inativar cliente:", error);
+      alert("Não foi possível inativar o cliente. Tente novamente mais tarde.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  //Adicionar cliente
+  const addClient = async (data: {
+    nome: string;
+    email: string;
+    data_nascimento: string;
+  }) => {
+    try {
+      const response = await axios.post("http://localhost:3001/clientes", data);
+      alert("Cliente adicionado com sucesso!");
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao adicionar cliente:", error);
+      alert("Erro ao adicionar cliente.");
+      throw error;
     }
   };
 
@@ -45,49 +91,4 @@ export const useClient = () => {
     throw new Error("useClient deve ser usado dentro de um ClientProvider");
   }
   return context;
-};
-
-//Inativar Client
-const inativarCliente = async (id: string) => {
-  try {
-    const response = await fetch(
-      `http://192.168.137.87:8081/clientes/${id}/inativar`,
-      {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error("Erro ao inativar cliente");
-    }
-
-    // Tenta retornar o JSON apenas se existir
-    const data = response.status !== 204 ? await response.json() : null;
-    alert("Cliente inativado com sucesso!");
-    return data;
-  } catch (error) {
-    console.error("Erro:", error);
-    alert("Não foi possível inativar o cliente.");
-  }
-};
-
-//Adicionar cliente
-const addClient = async (data: {
-  nome: string;
-  email: string;
-  data_nascimento: string;
-}) => {
-  try {
-    const response = await axios.post(
-      "http://192.168.137.87:8081/clientes",
-      data
-    );
-    alert("Cliente adicionado com sucesso!");
-    return response.data;
-  } catch (error) {
-    console.error("Erro ao adicionar cliente:", error);
-    alert("Erro ao adicionar cliente.");
-    throw error;
-  }
 };
