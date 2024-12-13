@@ -17,6 +17,6 @@ Front-End Web do projeto de mini-loja com gerenciamento de clientes, produtos e 
 
 # Devs
 
-Front-End Web: Sampas
-Front-End Mobile: Henrique
-API: Adimael
+- Front-End Web: Sampas
+- Front-End Mobile: Henrique
+- API: Adimael
