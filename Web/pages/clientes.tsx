@@ -5,16 +5,33 @@ import Footer from '../components/Footer';
 import Modal from '../components/Modal';
 import ClienteCard from '../components/ClienteCard';
 
-
 export default function Clientes() {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [clientes, setClientes] = useState<Array<{ name: string; email: string; dob: string, active: boolean }>>([]);
-  const [clienteEditando, setClienteEditando] = useState(null);
+  const [clientes, setClientes] = useState<Array<{ name: string; email: string; dob: string; active: boolean }>>([]);
+  const [clienteEditando, setClienteEditando] = useState<{ name: string; email: string; dob: string } | null>(null);
 
   const handleNewClient = (name: string, email: string, dob: string) => {
     setClientes([...clientes, { name, email, dob, active: true }]);
   };
 
+  const handleEditClient = (name: string, email: string, dob: string) => {
+    const updatedClientes = clientes.map(cliente =>
+      cliente.email === email ? { ...cliente, name, dob } : cliente
+    );
+    setClientes(updatedClientes);
+  };
+
+  const openEditModal = (cliente: { name: string; email: string; dob: string }) => {
+    setClienteEditando(cliente);
+    setModalOpen(true);
+  };
+
+  const toggleAtivar = (email: string) => {
+    const updatedClientes = clientes.map((cliente) =>
+      cliente.email === email ? { ...cliente, active: !cliente.active } : cliente
+    );
+    setClientes(updatedClientes);
+  };
 
   return (
     <>
@@ -31,32 +48,34 @@ export default function Clientes() {
         <div style={{ textAlign: 'center', marginTop: '60px' }}>
           <h1>Clientes</h1>
           <p>Aqui está a lista de clientes.</p>
-
         </div>
 
-        <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)} onSubmit={handleNewClient} />
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => {
+            setModalOpen(false);
+            setClienteEditando(null); // Limpa o estado de edição ao fechar o modal
+          }}
+          onSubmit={clienteEditando ? handleEditClient : handleNewClient}
+          clienteEditando={clienteEditando}
+        />
 
         <div className="clientes-container">
-        {clientes.map((cliente, index) => (
-          <div className="cliente-card" key={
-            index}>
-            <div className="cliente-info">
-              <h3>{cliente.name}</h3>
-              <p>{cliente.email}</p>
-              <p>{cliente.dob}</p>
-            </div>
-
-            <div className="cliente-actions">
-              <button >Editar</button>
-              <button >Inativar</button>
-            </div>
-          </div>
-        ))}
+          {clientes.map((cliente, index) => (
+            <ClienteCard
+              key={index}
+              nome={cliente.name}
+              email={cliente.email}
+              nascimento={cliente.dob}
+              ativo={cliente.active} // Passando o estado "ativo"
+              onEdit={() => openEditModal(cliente)}
+              onInativar={() => toggleAtivar(cliente.email)} // Alterna o estado ativo
+            />
+          ))}
+        </div>
       </div>
 
-      </div>
       <Footer />
     </>
   );
 }
-

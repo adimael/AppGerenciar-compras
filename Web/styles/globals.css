@@ -167,8 +167,14 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
+    transition: background-color 0.3s
   }
   
+  .cliente-card.inativo {
+    background-color: #d8d8d8; 
+    color: #ccc; 
+  }
+
   .cliente-info h3 {
     margin-bottom: 10px;
     font-size: 18px;

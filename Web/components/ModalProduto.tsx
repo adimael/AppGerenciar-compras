@@ -46,6 +46,7 @@ const ModalProduto: React.FC<ModalProdutoProps> = ({ isOpen, onClose, onSubmit }
               className="nome-input"
             />
           </div>
+          
           <div className="input-group">
             <label>Preço</label>
             <input
