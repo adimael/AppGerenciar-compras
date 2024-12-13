@@ -16,7 +16,7 @@ export default function Home() {
           className={styles.logo}
         />
         <Link href="/clientes">
-          <button className={styles.button}>Comprar</button>
+          <button className={styles.button}>Acessar</button>
         </Link>
       </div>
     </>
