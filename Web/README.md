@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Desenvolvimento Web
 
-## Getting Started
+Repositório apenas para estudo, projeto desenvolvido para a disciplina de Desenvolvimento Web e Desenvolvimento para Dispositivos Móveis. 
 
-First, run the development server:
+## Projeto Mini Loja
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Front-End Web do projeto de mini-loja com gerenciamento de clientes, produtos e compras.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tecnologias Utilizadas
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+* [![React](https://img.shields.io/badge/React-18.0.0-blue?style=for-the-badge&logo=react)](https://reactjs.org/)
+* [![Next.js](https://img.shields.io/badge/Next.js-15.0.4-blue?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+* [![Node.js](https://img.shields.io/badge/Node.js-22.12.0-green?style=for-the-badge&logo=node.js)](https://nodejs.org/)
+* [![npm](https://img.shields.io/badge/npm-latest-blue?style=for-the-badge&logo=npm)](https://www.npmjs.com/)
+* [![JavaScript](https://img.shields.io/badge/JavaScript-yellow?style=for-the-badge&logo=javascript)](https://www.javascript.com/)
+* [![CSS3](https://img.shields.io/badge/CSS3-blue?style=for-the-badge&logo=css3)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Funcionalidades Implementadas até o Momento
 
-## Learn More
+- Visualização de Produtos e Clientes: Exibição de uma lista de produtos e clientes cadastrados.
+- Adição de Produtos e Clientes: Formulários modais para adicionar novos produtos e clientes.
+- Edição de Clientes: Funcionalidade para editar os dados dos clientes.
+- Inativação de Clientes: Muda a cor do card do cliente.
 
-To learn more about Next.js, take a look at the following resources:
+## Devs
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Front-End Web: Sampas
+- Front-End Mobile: Henrique
+- API: Adimael
