@@ -1,46 +1,51 @@
-# Ignorar a pasta node_modules
-API/node_modules/
+# Dependências do Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# Ignorar arquivos de log
-API/*.log
+# Build e arquivos estáticos gerados pelo Next.js
+.next/
+out/
+build/
 
-# Ignorar arquivos do sistema operacional (Ex.: .DS_Store no macOS)
-API/.DS_Store
+# Configurações de ambiente
+.env
+.env.local
+.env.*.local
 
-# Ignorar arquivos de ambiente (Ex.: .env)
-API/.env
+# Logs
+logs/
+*.log
+logs/*.log
+pids/
+*.pid
+*.seed
+*.pid.lock
 
-# dependencies
-Mobile/node_modules/
+# Diretórios do sistema operacional ou editores de texto
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
 
-# Expo
-Mobile/.expo/
-Mobile/dist/
-Mobile/web-build/
-Mobile/expo-env.d.ts
+# Cache e dependências do pacote
+.cache/
+.pnpm-debug.log
+*.tsbuildinfo
 
-# Native
-Mobile/*.orig.*
-Mobile/*.jks
-Mobile/*.p8
-Mobile/*.p12
-Mobile/*.key
-Mobile/*.mobileprovision
+# Arquivos de banco de dados ou migrations
+*.sql
+*.sqlite
+*.sqlite3
+migrations/
 
-# Metro
-Mobile/.metro-health-check*
+# Test coverage
+coverage/
 
-# debug
-Mobile/npm-debug.*
-Mobile/yarn-debug.*
-Mobile/yarn-error.*
-
-# macOS
-Mobile/.DS_Store
-Mobile/*.pem
-
-# local env files
-Mobile/.env*.local
-
-# typescript
-Mobile/*.tsbuildinfo
+# Configuração de deploy (se aplicável)
+.vercel/
+netlify.toml
